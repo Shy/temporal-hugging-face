@@ -1,0 +1,493 @@
+/**
+ * Main stylesheet for Temporal Workflow Monitor
+ * Provides styling for the orbital interface and workflow capsules
+ */
+
+/* ===== BASE STYLES ===== */
+body {
+  font-family: "Jost", sans-serif;
+  font-optical-sizing: auto;
+  background-color: rgb(16, 16, 16) !important;
+  color: rgba(255, 255, 255, 0.451);
+}
+
+/* ===== ORBIT SYSTEM STYLES ===== */
+.orbit,
+[class*=orbit-] {
+  border: 0.1px solid rgba(255, 255, 255, 0.422);
+}
+
+.invisible {
+  border: none !important;
+}
+
+/* Orbit ring styles */
+.orbit-9 {
+  background: linear-gradient(white, white) padding-box, 
+              linear-gradient(to right, darkblue, darkorchid) border-box;
+  border: 4px solid transparent;
+}
+
+.orbit-6 {
+  border: 3px dotted var(--o-purple);
+}
+
+.orbit-3 {
+  border: 3px dashed var(--o-cyan);
+  background-color: var(--o-cyan-lighter);
+}
+
+/* ===== SUN-THEMED SUBMIT PROMPT ===== */
+.orbit-0 {
+  pointer-events: auto !important;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, 
+                             rgba(255, 140, 0, 0.1) 50%, transparent 70%);
+  border: 2px solid rgba(255, 215, 0, 0.3) !important;
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.4),
+    inset 0 0 20px rgba(255, 215, 0, 0.1);
+  position: relative;
+  overflow: visible;
+}
+
+.orbit-0::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 215, 0, 0.1) 45deg,
+    transparent 90deg,
+    rgba(255, 140, 0, 0.1) 135deg,
+    transparent 180deg,
+    rgba(255, 215, 0, 0.1) 225deg,
+    transparent 270deg,
+    rgba(255, 140, 0, 0.1) 315deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: sunRays 8s linear infinite;
+  z-index: -1;
+}
+
+@keyframes sunRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Submit prompt container */
+#submitPrompt {
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, 
+                             rgba(255, 140, 0, 0.1) 70%, transparent 100%);
+  border-radius: 50%;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  width: 250px;
+  height: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 250px;
+  max-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.6),
+    inset 0 0 20px rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#submitPrompt:hover {
+  border-color: rgba(255, 215, 0, 0.8);
+  box-shadow: 
+    0 0 40px rgba(255, 215, 0, 0.8),
+    inset 0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+#submitPrompt h2 {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* ===== FORM STYLES ===== */
+#promptSubmitForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+#promptSubmitForm input[type="text"] {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 25px;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 14px;
+  width: 200px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+#promptSubmitForm input[type="text"]:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#promptSubmitForm input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#promptSubmitForm button[type="submit"] {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  color: #000;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+#promptSubmitForm button[type="submit"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+#promptSubmitForm button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+  background: linear-gradient(135deg, #ffed4e, #ffa500);
+}
+
+#promptSubmitForm button[type="submit"]:hover::before {
+  left: 100%;
+}
+
+#promptSubmitForm button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+}
+
+/* ===== WORKFLOW CAPSULE STYLES ===== */
+.workflow-capsule {
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  width: 125px;
+  height: 125px;
+  min-width: 125px;
+  max-width: 125px;
+  min-height: 125px;
+  max-height: 125px;
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  font-size: 11px;
+  cursor: pointer;
+  border: 2px solid;
+  backdrop-filter: blur(10px);
+}
+
+.workflow-capsule h3 {
+  margin: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  transition: all 0.3s ease;
+}
+
+.workflow-capsule p {
+  display: none;
+  margin: 10px 0 0 0;
+  line-height: 1.3;
+  font-size: 10px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.workflow-capsule .workflow-status {
+  margin-top: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects for workflow capsules */
+.workflow-capsule:hover {
+  width: 330px;
+  height: 330px;
+  min-width: 330px;
+  max-width: 330px;
+  min-height: 330px;
+  max-height: 330px;
+  z-index: 1000;
+  border-width: 3px;
+  font-size: 14px;
+  padding: 30px;
+  transform: scale(1.05);
+}
+
+.workflow-capsule:hover h3 {
+  -webkit-line-clamp: none;
+  overflow: visible;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.workflow-capsule:hover p {
+  display: block;
+  font-size: 12px;
+  opacity: 1;
+}
+
+.workflow-capsule:hover .workflow-status {
+  margin-top: 15px;
+}
+
+/* ===== STATUS-SPECIFIC CAPSULE STYLES ===== */
+
+/* Running status */
+.capsule-running {
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+  animation: pulse-running 2s ease-in-out infinite;
+}
+
+@keyframes pulse-running {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1); 
+  }
+  50% { 
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.15); 
+  }
+}
+
+.capsule-running:hover {
+  border-color: #00ff88;
+  box-shadow: 0 0 40px #00ff88, inset 0 0 40px rgba(255, 255, 255, 0.2);
+  animation: none;
+}
+
+/* Awaiting worker status */
+.capsule-awaiting-worker {
+  background: linear-gradient(135deg, rgba(255, 167, 38, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 167, 38, 0.3);
+  box-shadow: 0 0 15px rgba(255, 167, 38, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+  animation: pulse-awaiting 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-awaiting {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(255, 167, 38, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1); 
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(255, 167, 38, 0.4), inset 0 0 18px rgba(255, 255, 255, 0.12); 
+  }
+}
+
+.capsule-awaiting-worker:hover {
+  border-color: #ffa726;
+  box-shadow: 0 0 40px #ffa726, inset 0 0 40px rgba(255, 255, 255, 0.2);
+  animation: none;
+}
+
+/* Running activities status */
+.capsule-running-activities {
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+  animation: pulse-activities 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-activities {
+  0%, 100% { 
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1); 
+  }
+  50% { 
+    box-shadow: 0 0 22px rgba(0, 255, 136, 0.45), inset 0 0 18px rgba(255, 255, 255, 0.13); 
+  }
+}
+
+.capsule-running-activities:hover {
+  border-color: #00ff88;
+  box-shadow: 0 0 40px #00ff88, inset 0 0 40px rgba(255, 255, 255, 0.2);
+  animation: none;
+}
+
+/* Completed status */
+.capsule-completed {
+  background: linear-gradient(135deg, rgba(102, 179, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(102, 179, 255, 0.3);
+  box-shadow: 0 0 15px rgba(102, 179, 255, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.capsule-completed:hover {
+  border-color: #66b3ff;
+  box-shadow: 0 0 40px #66b3ff, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* Failed status */
+.capsule-failed {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 71, 87, 0.3);
+  box-shadow: 0 0 15px rgba(255, 71, 87, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+.capsule-failed:hover {
+  border-color: #ff4757;
+  box-shadow: 0 0 40px #ff4757, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* Cancelled status */
+.capsule-cancelled {
+  background: linear-gradient(135deg, rgba(142, 68, 173, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(142, 68, 173, 0.3);
+  box-shadow: 0 0 15px rgba(142, 68, 173, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.capsule-cancelled:hover {
+  border-color: #8e44ad;
+  box-shadow: 0 0 40px #8e44ad, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* Terminated status */
+.capsule-terminated {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(231, 76, 60, 0.3);
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.capsule-terminated:hover {
+  border-color: #e74c3c;
+  box-shadow: 0 0 40px #e74c3c, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* Timed out status */
+.capsule-timed-out {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 107, 107, 0.3);
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.capsule-timed-out:hover {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 40px #ff6b6b, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* Unknown status */
+.capsule-unknown {
+  background: linear-gradient(135deg, rgba(149, 165, 166, 0.1), rgba(255, 255, 255, 0.05));
+  border-color: rgba(149, 165, 166, 0.3);
+  box-shadow: 0 0 15px rgba(149, 165, 166, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.capsule-unknown:hover {
+  border-color: #95a5a6;
+  box-shadow: 0 0 40px #95a5a6, inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+/* ===== STATUS LINK STYLES ===== */
+.status-link {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+  text-align: center;
+  backdrop-filter: blur(5px);
+}
+
+.status-link:hover {
+  transform: scale(1.05);
+  opacity: 1;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .workflow-capsule {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    font-size: 9px;
+  }
+  
+  .workflow-capsule:hover {
+    width: 280px;
+    height: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 280px;
+    max-height: 280px;
+    font-size: 12px;
+    padding: 20px;
+  }
+  
+  #submitPrompt {
+    width: 200px;
+    height: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    padding: 20px;
+  }
+  
+  #submitPrompt h2 {
+    font-size: 1em;
+  }
+  
+  #promptSubmitForm input[type="text"] {
+    width: 160px;
+    font-size: 12px;
+  }
+}
+
