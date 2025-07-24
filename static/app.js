@@ -79,6 +79,7 @@ function updateCapsuleStyle(capsuleId, status) {
   capsule.classList.remove(...statusClasses);
 
   // Add base workflow-capsule class and status-specific class
+  // Keep the capsule class for counter-rotation
   capsule.classList.add("workflow-capsule", getStatusCssClass(status));
 }
 
@@ -168,7 +169,7 @@ function createStatusElement(workflowId, runId, status = "RUNNING") {
  */
 function createOrbitElement(workflowId, runId, prompt) {
   const newSatellite = document.createElement("div");
-  newSatellite.className = "satellite invisible";
+  newSatellite.className = "satellite invisible rotate-orbit rotate-time-2";
 
   const newCapsule = document.createElement("div");
   newCapsule.className = "capsule";
