@@ -1,0 +1,1 @@
+This is an example implementation of running a hugging face model using Temporal activties and workers. Our page is using websockets to communicate updates back and forth between our flask server, and our browser client. 
