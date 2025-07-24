@@ -224,6 +224,16 @@ body {
   cursor: pointer;
   border: 2px solid;
   backdrop-filter: blur(10px);
+  animation: counter-rotate 30s linear infinite !important;
+}
+
+/* Pause all animations on hover */
+.workflow-capsule:hover {
+  animation-play-state: paused !important;
+}
+
+.satellite:hover {
+  animation-play-state: paused !important;
 }
 
 @keyframes counter-rotate {
