@@ -55,8 +55,8 @@ You're able to ask as many questions as you'd like and can navigate to the tempo
 
 The specfic files include:
 
-- **Flask Application** (`app.py`): Web server handling HTTP requests and WebSocket connections
-- **Temporal Workflows** (`workflows.py`): Defines the workflow structure with retry policies.
-- **Activities** (`activities.py`): Handles the actual AI model inference logic
-- **Worker** (`run_worker.py`): Temporal worker that processes queued workflows
-- **Frontend** (`templates/`, `static/`,): Frontend that leverages the [orbit css framework](https://github.com/zumerlab/orbit) to create the circular layout and [clientside javascript](`static/app.js`) to communicated with the flask server using websockets to update the page as information is returned from our worker.
+- **Flask Application** ([`app.py`](app.py)): Web server handling HTTP requests and WebSocket connections
+- **Temporal Workflows** ([`workflows.py`](workflows.py)): Defines the workflow structure with retry policies.
+- **Activities** ([`activities.py`](activities.py)): Handles the actual AI model inference logic
+- **Worker** ([`run_worker.py`](run_worker.py)): Temporal worker that processes queued workflows
+- **Frontend** (`templates/`, `static/`,): Frontend that leverages the [orbit css framework](https://github.com/zumerlab/orbit) to create the circular layout and [clientside javascript](static/app.js) to communicated with the flask server using websockets to update the page as information is returned from our worker.
