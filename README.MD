@@ -37,11 +37,6 @@ You're able to ask as many questions as you'd like and can navigate to the tempo
 
 ### How this project works:
 
-- This project has 3 major components that communicate with each other.
-- The flask app manages our frontend, pushes out updates to a browser using websockets, and creates new workflows to be coordinated by our temporal server.
-- The Temporal server assigns work to our worker, manages the queue, handles retries and more.
-- Our worker, executes our hugging face model and returns the results of our questions.
-
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Flask App     │    │  Temporal       │    │  Worker         │
@@ -53,8 +48,15 @@ You're able to ask as many questions as you'd like and can navigate to the tempo
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
+- This project has 3 major components that communicate with each other.
+  - The flask app manages our frontend, pushes out updates to a browser using websockets, and creates new workflows to be coordinated by our temporal server.
+  - The Temporal server assigns work to our worker, manages the queue, handles retries and more.
+  - Our worker, executes our hugging face model and returns the results of our questions.
+
+The specfic files include:
+
 - **Flask Application** (`app.py`): Web server handling HTTP requests and WebSocket connections
 - **Temporal Workflows** (`workflows.py`): Defines the workflow structure with retry policies.
-- **Activities** (`activities.py`): Contains the actual AI model inference logic
+- **Activities** (`activities.py`): Handles the actual AI model inference logic
 - **Worker** (`run_worker.py`): Temporal worker that processes queued workflows
 - **Frontend** (`templates/`, `static/`,): Frontend that leverages the [orbit css framework](https://github.com/zumerlab/orbit) to create the circular layout and [clientside javascript](`static/app.js`) to communicated with the flask server using websockets to update the page as information is returned from our worker.
