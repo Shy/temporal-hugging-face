@@ -1,4 +1,4 @@
-# Temporal Hugging Face Example.
+# Temporal Hugging Face Question Planetarium
 
 This is an example implementation of running a hugging face model using Temporal activities and workers. Our page is using WebSockets to communicate updates back and forth between our flask server, and our client browser. By leveraging temporal we get automatic job queuing and execution in addition to retries, timeout management, question status tracking and more.
 
