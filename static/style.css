@@ -11,6 +11,30 @@ body {
   color: rgba(255, 255, 255, 0.451);
 }
 
+/* ===== LOGO STYLES ===== */
+.logo-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.05);
+}
+
+.logo-link:hover .logo {
+  opacity: 1;
+}
+
 /* ===== ORBIT SYSTEM STYLES ===== */
 .orbit,
 [class*=orbit-] {

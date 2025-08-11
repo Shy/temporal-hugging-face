@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="color-scheme" content="light dark" />
-        <title>
-            {% block title %}{% endblock %}
-        </title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
-                integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
-                crossorigin="anonymous"></script>
-        <link rel="stylesheet"
-              href="https://unpkg.com/@zumer/orbit@latest/dist/orbit.css" />
-        <script src="https://unpkg.com/@zumer/orbit@latest/dist/orbit.js"></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    </head>
-    <body>
-        <div class="bigbang">
-            <div class="gravity-spot" style="--o-force: 1000px" id="gravity-spot">
-                <div class="orbit-0">
-                    <section id="submitPrompt">
-                        <h2>Submit a prompt</h2>
-                        <form id="promptSubmitForm">
-                            <input type="text" name="question" placeholder="Question" required />
-                            <button type="submit">Submit</button>
-                        </form>
-                    </section>
-                </div>
-                <div id="orbitRoot" class="orbit-8 "></div>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+        integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@zumer/orbit@latest/dist/orbit.css" />
+    <script src="https://unpkg.com/@zumer/orbit@latest/dist/orbit.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+    <a href="http://temporal.io/" target="_blank" class="logo-link">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Temporal Logo" class="logo" />
+    </a>
+    <div class="bigbang">
+        <div class="gravity-spot" style="--o-force: 1000px" id="gravity-spot">
+            <div class="orbit-0">
+                <section id="submitPrompt">
+                    <h2>Submit a prompt</h2>
+                    <form id="promptSubmitForm">
+                        <input type="text" name="question" placeholder="Question" required />
+                        <button type="submit">Submit</button>
+                    </form>
+                </section>
             </div>
+            <div id="orbitRoot" class="orbit-8 "></div>
         </div>
-        <script src="{{ url_for('static', filename='app.js') }}"></script>
-    </body>
+    </div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
 </html>

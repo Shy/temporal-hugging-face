@@ -255,6 +255,13 @@ socket.on("workflow_statuses", function (data) {
 
         // Update capsule styling to match new status
         updateCapsuleStyle(trackedWorkflow.runId, workflow.status);
+
+        // Remove completed workflows from tracking
+        const completedStatuses = ['COMPLETED', 'FAILED', 'CANCELLED', 'TERMINATED', 'TIMED_OUT'];
+        if (completedStatuses.includes(workflow.status)) {
+          console.log(`Removing completed workflow from tracking: ${workflow.id} (${workflow.status})`);
+          trackedWorkflows.delete(workflow.id);
+        }
       }
     }
   });
