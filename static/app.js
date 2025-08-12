@@ -38,6 +38,7 @@ function updateTrackedWorkflowStatuses() {
   }
 }
 
+
 /**
  * Get CSS class name for a workflow status
  * @param {string} status - The workflow status
@@ -321,3 +322,4 @@ socket.on("workflow_statuses", function (data) {
 socket.on("workflow_statuses_error", function (data) {
   console.error("Workflow statuses error:", data);
 });
+
