@@ -9,7 +9,7 @@ with workflow.unsafe.imports_passed_through():
 @workflow.defn
 class askQuestion:
     @workflow.run
-    async def run(self, prompt: str) -> str:
+    async def run(self, prompt: str, model: str = "20b") -> str:
         retry_policy = RetryPolicy(
             initial_interval=timedelta(seconds=1),
             backoff_coefficient=2.0,
@@ -17,7 +17,7 @@ class askQuestion:
         )
         return await workflow.execute_activity(
             ask_question,
-            prompt,
+            args=(prompt, model),
             start_to_close_timeout=timedelta(seconds=360),
             retry_policy=retry_policy,
         )

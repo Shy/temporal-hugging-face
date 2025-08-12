@@ -24,12 +24,12 @@ def index():
     return render_template("base.html")
 
 
-async def start_ask_question(prompt):
+async def start_ask_question(data):
     """
     Start a new Temporal workflow to process a question
 
     Args:
-        prompt (str): The question to process
+        data (dict): Dictionary containing prompt and model
 
     Returns:
         None: Emits results via WebSocket
@@ -41,7 +41,7 @@ async def start_ask_question(prompt):
     workflow_id = "question-workflow-" + generate(size=5)
     handle = await client.start_workflow(
         askQuestion.run,
-        prompt,
+        args=(data["prompt"], data["model"]),
         id=workflow_id,
         task_queue="question-task-queue",
     )
@@ -54,7 +54,8 @@ async def start_ask_question(prompt):
         {
             "id": handle.id,
             "run_id": handle.result_run_id,
-            "prompt": prompt,
+            "prompt": data["prompt"],
+            "model": data["model"],
         },
     )
 
@@ -66,7 +67,7 @@ async def start_ask_question(prompt):
             "id": handle.id,
             "run_id": handle.result_run_id,
             "response": result,
-            "prompt": prompt,
+            "prompt": data["prompt"],
         },
     )
 
@@ -150,10 +151,10 @@ async def get_workflow_statuses(workflow_ids):
 
 # WebSocket event handlers
 @socketio.on("prompt")
-def process_question(prompt):
+def process_question(data):
     """Handle new question submission from client"""
-    print(f"Received question: {prompt}")
-    asyncio.run(start_ask_question(prompt))
+    print(f"Received question: {data['prompt']} with model: {data['model']}")
+    asyncio.run(start_ask_question(data))
 
 
 @socketio.on("get_workflow_statuses")
