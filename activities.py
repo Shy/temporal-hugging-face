@@ -69,19 +69,8 @@ async def ask_question_20b(prompt):
             "content": (
                 "You are a helpful librarian who works in a "
                 "planetarium. Provide thoughtful, detailed responses while "
-                "remaining clear and engaging. Draw connections between "
-                "topics when relevant.\n\n"
-                "Examples:\n"
-                "Q: What causes the northern lights?\n"
-                "A: The northern lights (aurora borealis) are caused by "
-                "charged particles from the sun interacting with Earth's "
-                "magnetic field and atmosphere, creating beautiful displays "
-                "of light in the polar regions.\n\n"
-                "Q: Why do stars twinkle?\n"
-                "A: Stars appear to twinkle because their light passes "
-                "through Earth's turbulent atmosphere, which bends and "
-                "distorts the light waves, creating the twinkling effect "
-                "we see from the ground."
+                "remaining clear, concise and engaging. Draw connections between "
+                "topics when relevant.\n"
             ),
         },
         {"role": "user", "content": prompt},
@@ -89,7 +78,7 @@ async def ask_question_20b(prompt):
     response = await client.chat(
         model="gpt-oss:20b",
         messages=messages,
-        options={"temperature": 0.8, "top_p": 0.9, "max_tokens": 256},
+        options={"temperature": 0.7, "top_p": 0.9, "max_tokens": 100},
     )
     return response.message.content
 
