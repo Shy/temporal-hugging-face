@@ -53,6 +53,7 @@ body {
 }
 
 .rotate-time-2 { animation-duration: 30s; }
+.rotate-time-elliptical { animation-duration: 45s; }
 
 @keyframes rotation {
   0% {
@@ -81,30 +82,52 @@ body {
 .orbit-0::before {
   content: '';
   position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    rgba(255, 215, 0, 0.1) 45deg,
-    transparent 90deg,
-    rgba(255, 140, 0, 0.1) 135deg,
-    transparent 180deg,
-    rgba(255, 215, 0, 0.1) 225deg,
-    transparent 270deg,
-    rgba(255, 140, 0, 0.1) 315deg,
-    transparent 360deg
+  top: -30px;
+  left: -30px;
+  right: -30px;
+  bottom: -30px;
+  background: radial-gradient(
+    circle,
+    transparent 70%,
+    rgba(255, 215, 0, 0.1) 75%,
+    rgba(255, 140, 0, 0.15) 80%,
+    rgba(255, 215, 0, 0.1) 85%,
+    transparent 90%
   );
   border-radius: 50%;
-  animation: sunRays 8s linear infinite;
+  animation: sunPulse 4s ease-in-out infinite;
   z-index: -1;
 }
 
-@keyframes sunRays {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.orbit-0::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  background: radial-gradient(
+    circle,
+    transparent 75%,
+    rgba(255, 215, 0, 0.05) 80%,
+    rgba(255, 140, 0, 0.08) 85%,
+    rgba(255, 215, 0, 0.05) 90%,
+    transparent 95%
+  );
+  border-radius: 50%;
+  animation: sunPulse 6s ease-in-out infinite reverse;
+  z-index: -2;
+}
+
+@keyframes sunPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
 }
 
 /* Submit prompt container */
@@ -112,16 +135,16 @@ body {
   background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, 
                              rgba(255, 140, 0, 0.1) 70%, transparent 100%);
   border-radius: 50%;
-  padding: 30px;
+  padding: 40px;
   text-align: center;
   position: relative;
   z-index: 2;
-  width: 250px;
-  height: 250px;
-  min-width: 250px;
-  max-width: 250px;
-  min-height: 250px;
-  max-height: 250px;
+  width: 350px;
+  height: 350px;
+  min-width: 350px;
+  max-width: 350px;
+  min-height: 350px;
+  max-height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -230,12 +253,12 @@ body {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
-  width: 125px;
-  height: 125px;
-  min-width: 125px;
-  max-width: 125px;
-  min-height: 125px;
-  max-height: 125px;
+  width: 140px;
+  height: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  min-height: 140px;
+  max-height: 140px;
   padding: 5px;
   margin: 5px;
   display: flex;
@@ -289,23 +312,63 @@ body {
   transition: all 0.3s ease;
 }
 
-.workflow-capsule .workflow-status {
+.workflow-capsule .response-text {
+  display: block;
+  margin: 8px 0;
+  line-height: 1.3;
+  font-size: 9px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-height: 40px;
+  overflow: hidden;
+}
+
+
+.workflow-capsule .status-row {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 67%, rgba(255, 255, 255, 0.15) 67%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
   margin-top: 8px;
   transition: all 0.3s ease;
 }
 
+.workflow-capsule .workflow-status {
+  flex: 2;
+  min-width: 0;
+  padding: 2px 8px;
+}
+
+.workflow-capsule .model-indicator {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 2px 6px;
+  font-size: 8px;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-width: 35px;
+  overflow: visible;
+  white-space: nowrap;
+}
+
 /* Hover effects for workflow capsules */
 .workflow-capsule:hover {
-  width: 330px;
-  height: 330px;
-  min-width: 330px;
-  max-width: 330px;
-  min-height: 330px;
-  max-height: 330px;
+  width: 380px;
+  height: 380px;
+  min-width: 380px;
+  max-width: 380px;
+  min-height: 380px;
+  max-height: 380px;
   z-index: 1000;
   border-width: 3px;
   font-size: 14px;
-  padding: 30px;
+  padding: 35px;
   transform: scale(1.05);
 }
 
@@ -322,8 +385,15 @@ body {
   opacity: 1;
 }
 
-.workflow-capsule:hover .workflow-status {
-  margin-top: 15px;
+.workflow-capsule:hover .response-text {
+  font-size: 11px;
+  max-height: 180px;
+  opacity: 1;
+}
+
+.workflow-capsule:hover .model-indicator {
+  font-size: 10px;
+  padding: 4px 8px;
 }
 
 /* ===== STATUS-SPECIFIC CAPSULE STYLES ===== */
@@ -478,67 +548,148 @@ body {
 
 /* ===== STATUS LINK STYLES ===== */
 .status-link {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 4px 8px;
+  display: inline;
+  padding: 2px 4px;
   background: none;
   border: none;
-  border-radius: 15px;
   text-decoration: none;
   font-size: 10px;
   font-weight: bold;
   transition: all 0.3s ease;
   opacity: 0.8;
-  text-align: center;
-  backdrop-filter: blur(5px);
+  text-align: left;
+  white-space: nowrap;
 }
 
 .status-link:hover {
-  transform: scale(1.05);
   opacity: 1;
-  backdrop-filter: blur(10px);
+}
+
+/* ===== MODEL-SPECIFIC CAPSULE STYLING ===== */
+.workflow-capsule.model-smol .model-indicator {
+  color: #00ff88;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+  border-left-color: rgba(0, 255, 136, 0.4);
+}
+
+.workflow-capsule.model-gpt .model-indicator {
+  color: #66b3ff;
+  text-shadow: 0 0 5px rgba(102, 179, 255, 0.5);
+  border-left-color: rgba(102, 179, 255, 0.4);
+}
+
+.workflow-capsule.model-smol:hover .model-indicator {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.8);
+  background: rgba(0, 255, 136, 0.1);
+  border-left-color: rgba(0, 255, 136, 0.6);
+}
+
+.workflow-capsule.model-gpt:hover .model-indicator {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(102, 179, 255, 0.8);
+  background: rgba(102, 179, 255, 0.1);
+  border-left-color: rgba(102, 179, 255, 0.6);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .workflow-capsule {
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
-    max-width: 100px;
-    min-height: 100px;
-    max-height: 100px;
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
     font-size: 9px;
   }
   
   .workflow-capsule:hover {
+    width: 320px;
+    height: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    min-height: 320px;
+    max-height: 320px;
+    font-size: 12px;
+    padding: 25px;
+  }
+  
+  #submitPrompt {
     width: 280px;
     height: 280px;
     min-width: 280px;
     max-width: 280px;
     min-height: 280px;
     max-height: 280px;
-    font-size: 12px;
-    padding: 20px;
-  }
-  
-  #submitPrompt {
-    width: 200px;
-    height: 200px;
-    min-width: 200px;
-    max-width: 200px;
-    min-height: 200px;
-    max-height: 200px;
-    padding: 20px;
+    padding: 30px;
   }
   
   #submitPrompt h2 {
     font-size: 1em;
   }
   
-  #promptSubmitForm input[type="text"] {
-    width: 160px;
+  .input-row {
+    width: 220px;
+  }
+  
+  #promptSubmitForm input[type="text"],
+  #promptSubmitForm select {
     font-size: 12px;
   }
+}
+
+/* ===== INPUT ROW STYLES ===== */
+.input-row {
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 25px;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  width: 280px;
+  margin-bottom: 20px;
+}
+
+.input-row:focus-within {
+  border-color: #ffd700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#promptSubmitForm input[type="text"] {
+  background: transparent;
+  border: none;
+  border-radius: 25px 0 0 25px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 14px;
+  flex: 3;
+  min-width: 0;
+  outline: none;
+}
+
+#promptSubmitForm input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+#promptSubmitForm select {
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 0 25px 25px 0;
+  padding: 12px 12px;
+  color: #fff;
+  font-size: 14px;
+  flex: 1;
+  cursor: pointer;
+  outline: none;
+}
+
+#promptSubmitForm select option {
+  background: rgba(16, 16, 16, 0.95);
+  color: #fff;
+  padding: 10px;
 }
 

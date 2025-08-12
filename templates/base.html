@@ -26,7 +26,13 @@
                 <section id="submitPrompt">
                     <h2>Submit a prompt</h2>
                     <form id="promptSubmitForm">
-                        <input type="text" name="question" placeholder="Question" required />
+                        <div class="input-row">
+                            <input type="text" name="question" placeholder="Ask your question..." required />
+                            <select name="model" id="modelSelect" required>
+                                <option value="smolm3-3b">SMOL</option>
+                                <option value="20b">GPT</option>
+                            </select>
+                        </div>
                         <button type="submit">Submit</button>
                     </form>
                 </section>

@@ -1,9 +1,10 @@
 from temporalio import activity
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from ollama import AsyncClient
 
 
 @activity.defn
-async def ask_question(prompt):
+async def ask_question_SMOL(prompt):
     print(f"Prompt: {prompt}")
 
     model_name = "HuggingFaceTB/SmolLM3-3B"
@@ -38,3 +39,34 @@ async def ask_question(prompt):
     # Get and decode the output
     output_ids = generated_ids[0][len(model_inputs.input_ids[0]) :]
     return tokenizer.decode(output_ids, skip_special_tokens=True)
+
+
+@activity.defn
+async def ask_question(prompt, model):
+    print(f"Prompt: {prompt}, Model: {model}")
+    
+    if model == "smolm3-3b":
+        return await ask_question_SMOL(prompt)
+    elif model == "20b":
+        return await ask_question_20b(prompt)
+    else:
+        raise ValueError(f"Unknown model: {model}")
+
+
+@activity.defn
+async def ask_question_20b(prompt):
+    print(f"Prompt: {prompt}")
+
+    prompt = f"{prompt}."
+    messages = [
+        {
+            "role": "system",
+            "content": "Be brief and concise.",
+        },
+        {"role": "user", "content": prompt},
+    ]
+    response = await AsyncClient().chat(
+        model="gpt-oss:20b",
+        messages=messages,
+    )
+    return response.message.content

@@ -3,6 +3,7 @@
  * Handles WebSocket communication and UI updates for workflow status tracking
  */
 
+
 // DOM elements
 const form = document.getElementById("promptSubmitForm");
 
@@ -22,9 +23,10 @@ socket.on("connect", function () {
 /**
  * Send a question prompt to the server
  * @param {string} prompt - The question to send
+ * @param {string} model - The selected model
  */
-function sendData(prompt) {
-  socket.emit("prompt", prompt);
+function sendData(prompt, model) {
+  socket.emit("prompt", { prompt, model });
 }
 
 /**
@@ -147,7 +149,7 @@ function createStatusElement(workflowId, runId, status = "RUNNING") {
   statusLink.className = "status-link";
   statusLink.style.color = colors.color;
   statusLink.style.borderColor = colors.color;
-  statusLink.innerHTML = `${colors.emoji} ${statusText}`;
+  statusLink.textContent = `${colors.emoji} ${statusText}`;
 
   // Add hover effect for color change
   statusLink.onmouseover = function () {
@@ -165,18 +167,25 @@ function createStatusElement(workflowId, runId, status = "RUNNING") {
  * @param {string} workflowId - The workflow ID
  * @param {string} runId - The run ID
  * @param {string} prompt - The original question prompt
+ * @param {string} model - The selected model
  * @returns {HTMLElement} The created satellite element
  */
-function createOrbitElement(workflowId, runId, prompt) {
+function createOrbitElement(workflowId, runId, prompt, model) {
   const newSatellite = document.createElement("div");
   newSatellite.className = "satellite invisible rotate-orbit rotate-time-2";
 
+  const modelDisplayName = model === "smolm3-3b" ? "SMOL" : "GPT";
+  const modelClass = model === "smolm3-3b" ? "model-smol" : "model-gpt";
+
   const newCapsule = document.createElement("div");
-  newCapsule.className = "capsule";
+  newCapsule.className = `capsule ${modelClass}`;
   newCapsule.innerHTML = `
     <h3>${prompt}</h3>
-    <div class="workflow-status" id="status-${runId}">
-      ${createStatusElement(workflowId, runId, "AWAITING_WORKER").outerHTML}
+    <div class="status-row" id="status-${runId}">
+      <div class="workflow-status">
+        ${createStatusElement(workflowId, runId, "AWAITING_WORKER").outerHTML}
+      </div>
+      <div class="model-indicator">${modelDisplayName}</div>
     </div>
   `;
   newCapsule.id = runId;
@@ -189,7 +198,13 @@ function createOrbitElement(workflowId, runId, prompt) {
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   const formData = new FormData(form);
-  sendData(formData.get("question"));
+  const question = formData.get("question");
+  const model = formData.get("model");
+  
+  sendData(question, model);
+  
+  // Reset only the question field, keep the model selection
+  form.querySelector('input[name="question"]').value = "";
 });
 
 // WebSocket event handlers
@@ -205,17 +220,15 @@ socket.on("accepted", function (msg) {
     runId: msg.run_id,
     status: "AWAITING_WORKER",
     capsuleId: msg.run_id,
+    model: msg.model,
   });
 
   // Create and add new satellite to the orbit
-  const newSatellite = createOrbitElement(msg.id, msg.run_id, msg.prompt);
+  const newSatellite = createOrbitElement(msg.id, msg.run_id, msg.prompt, msg.model);
   document.getElementById("orbitRoot").appendChild(newSatellite);
 
   // Apply initial styling with a slight delay for smooth animation
   setTimeout(() => updateCapsuleStyle(msg.run_id, "AWAITING_WORKER"), 100);
-
-  // Reset the form
-  form.reset();
 });
 
 /**
@@ -224,7 +237,39 @@ socket.on("accepted", function (msg) {
 socket.on("response", function (msg) {
   console.log("Workflow completed:", msg);
   const question = document.getElementById(msg.run_id);
-  question.innerHTML += `<p>${msg.response}</p>`;
+  
+  // Truncate response for display in capsule
+  const maxLength = 100;
+  const truncatedResponse = msg.response.length > maxLength 
+    ? msg.response.substring(0, maxLength) + "..." 
+    : msg.response;
+  
+  // Add response element
+  const responseElement = document.createElement("p");
+  responseElement.className = "response-text";
+  responseElement.innerHTML = truncatedResponse;
+  responseElement.title = msg.response; // Full response on hover tooltip
+  
+  question.appendChild(responseElement);
+  
+  // Add hover handlers to the capsule to show/hide full response
+  if (msg.response.length > maxLength) {
+    const capsule = question;
+    capsule.addEventListener('mouseenter', function() {
+      const responseText = this.querySelector('.response-text');
+      if (responseText) {
+        responseText.innerHTML = msg.response;
+      }
+    });
+    
+    capsule.addEventListener('mouseleave', function() {
+      const responseText = this.querySelector('.response-text');
+      if (responseText) {
+        responseText.innerHTML = truncatedResponse;
+      }
+    });
+  }
+  
   const button = createButton(msg);
   question.classList.add("animate__animated", "animate__bounceOutLeft");
 });
@@ -246,11 +291,14 @@ socket.on("workflow_statuses", function (data) {
           `status-${trackedWorkflow.runId}`
         );
         if (statusContainer) {
-          statusContainer.innerHTML = createStatusElement(
-            workflow.id,
-            trackedWorkflow.runId,
-            workflow.status
-          ).outerHTML;
+          const workflowStatusDiv = statusContainer.querySelector('.workflow-status');
+          if (workflowStatusDiv) {
+            workflowStatusDiv.innerHTML = createStatusElement(
+              workflow.id,
+              trackedWorkflow.runId,
+              workflow.status
+            ).outerHTML;
+          }
         }
 
         // Update capsule styling to match new status
